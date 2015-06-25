@@ -47,6 +47,27 @@ class QRimage {
         ImageDestroy($image);
     }
 
+//----------------------------------------------------------------------
+    public static function gif($frame, $filename = false, $pixelPerPoint = 4, $outerFrame = 4,$saveandprint=FALSE)
+    {
+        $image = self::image($frame, $pixelPerPoint, $outerFrame);
+
+        if ($filename === false) {
+            Header("Content-type: image/gif");
+            ImageGif($image);
+        } else {
+            if($saveandprint===TRUE){
+                ImageGif($image, $filename);
+                header("Content-type: image/gif");
+                ImageGif($image);
+            }else{
+                ImageGif($image, $filename);
+            }
+        }
+
+        ImageDestroy($image);
+    }
+
     //----------------------------------------------------------------------
     public static function jpg($frame, $filename = false, $pixelPerPoint = 8, $outerFrame = 4, $q = 85)
     {

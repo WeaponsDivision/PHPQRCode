@@ -134,4 +134,27 @@ class QRencode {
             QRtools::log($outfile, $e->getMessage());
         }
     }
+
+    //----------------------------------------------------------------------
+    public function encodeGIF($intext, $outfile = false,$saveandprint=false)
+    {
+        try {
+            ob_start();
+            $tab = $this->encode($intext);
+            $err = ob_get_contents();
+            ob_end_clean();
+
+            if ($err != '')
+                QRtools::log($outfile, "ERROR: " . $err);
+
+            $maxSize = (int)(Constants::QR_PNG_MAXIMUM_SIZE / (count($tab)+2*$this->margin));
+
+            QRimage::gif($tab, $outfile, min(max(1, $this->size), $maxSize), $this->margin,$saveandprint);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die();
+
+            QRtools::log($outfile, $e->getMessage());
+        }
+    }
 }
